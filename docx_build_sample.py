@@ -5,6 +5,28 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt, Mm
 
 
+def set_table_style(table):
+    # 表のスタイルを設定
+    table.style = "Table Grid"
+    # 表の位置を中央に設定
+    table.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    for i, row in enumerate(table.rows):
+        # 表の高さを設定
+        if i == 0:
+            row.height = Mm(6)
+        else:
+            row.height = Mm(13)
+        # 表の幅を設定
+        for j, cell in enumerate(row.cells):
+            if j == 0:
+                cell.width = Mm(18)
+            elif j == 3 or j == 4:
+                cell.width = Mm(20)
+            else:
+                cell.width = Mm(23)
+    return table
+
+
 def main():
     user = os.getenv("USERNAME")
     file = Document()
@@ -32,6 +54,28 @@ def main():
     p = file.add_paragraph("氏名：xxxxxx")
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     p.paragraph_format.right_indent = Pt(75)
+
+    p = file.add_paragraph("2023年度 週間進捗報告")
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    file.add_paragraph()
+    file.add_paragraph("【2023年 11月第x週】")
+
+    table = file.add_table(rows=3, cols=8)
+    table = set_table_style(table)
+
+    for i in range(3):
+        for j in range(8):
+            # 各セルの幅と高さを設定
+            # if j == 0:
+            #     table.cell(i, j).width = Mm(18)
+            # else:
+            #     table.cell(i, j).width = Mm(28)
+
+            # 各セルに入れる文字を設定
+            if i == 1 and j == 0:
+                table.cell(i, j).text = "ゼミ室\n入退"
+            if i == 2 and j == 0:
+                table.cell(i, j).text = "備考"
 
     file.save("/mnt/c/Users/" + user + "/Downloads/sample.docx")
 
