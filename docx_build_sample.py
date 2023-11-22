@@ -65,17 +65,22 @@ def main():
 
     for i in range(3):
         for j in range(8):
-            # 各セルの幅と高さを設定
-            # if j == 0:
-            #     table.cell(i, j).width = Mm(18)
-            # else:
-            #     table.cell(i, j).width = Mm(28)
-
             # 各セルに入れる文字を設定
             if i == 1 and j == 0:
                 table.cell(i, j).text = "ゼミ室\n入退"
             if i == 2 and j == 0:
                 table.cell(i, j).text = "備考"
+
+    file.add_paragraph()
+    file.add_paragraph("・予定と結果(概要)")
+    file.add_paragraph(" ・")
+    file.add_paragraph()
+    file.add_paragraph("・予定していたこと以外で行ったこと(概要)")
+    file.add_paragraph()
+    file.add_paragraph("・その他（先輩、先生からの指示、同輩等からの助言、他の人に伝えたい技術、ニュースなど）")
+    file.add_paragraph()
+    file.add_paragraph("・直近1週間の振り返り（自己評価、今後に向けた課題）")
+    file.add_paragraph()
 
     file.save("/mnt/c/Users/" + user + "/Downloads/sample.docx")
 
